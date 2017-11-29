@@ -25,4 +25,9 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void favorites(View view) {
+        Intent intent = new Intent(this, FavoritesActivity.class);
+        startActivity(intent);
+    }
+
 }
