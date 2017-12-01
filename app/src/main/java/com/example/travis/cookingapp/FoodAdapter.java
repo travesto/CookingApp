@@ -2,7 +2,9 @@ package com.example.travis.cookingapp;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,14 +43,15 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
         }
 
         public void bindResult(FoodResult result) {
-            mTitleView.setText(result.getTitle());
+            String decodedTitle = Html.fromHtml(result.getTitle()).toString();
+            mTitleView.setText(cleanString((decodedTitle)));
             mIngredientsView.setText("Ingredients: " + result.getIngredients());
         }
 
         @Override
         public void onClick(View view) {
             FoodResult item = getResult(getAdapterPosition());
-            this.mItemListener.onPostClick(item.getTitle());
+            this.mItemListener.onPostClick(item.getTitle(), item.getHref());
 
             notifyDataSetChanged();
         }
@@ -98,6 +101,11 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
     }
 
     public interface PostItemListener {
-        void onPostClick(String title);
+        void onPostClick(String title, String href);
+    }
+
+    public String cleanString(String text) {
+        // Log.d("String Cleaning", "Cleaning " + text);
+        return text.replace(System.getProperty("line.separator"), "").trim();
     }
 }
