@@ -53,9 +53,9 @@ public class ResultsActivity extends AppCompatActivity {
     }
 
     public void getResults(String query) {
-        mService.searchIngredients(query).enqueue(new Callback<RecipeResponse>() {
+        mService.searchIngredients(query).enqueue(new Callback<RecipeResult>() {
             @Override
-            public void onResponse(Call<RecipeResponse> call, Response<RecipeResponse> response) {
+            public void onResponse(Call<RecipeResult> call, Response<RecipeResult> response) {
                 if (response.isSuccessful()) {
                     mAdapter.updateResults(response.body().getResults());
                 } else {
@@ -64,7 +64,7 @@ public class ResultsActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<RecipeResponse> call, Throwable t) {
+            public void onFailure(Call<RecipeResult> call, Throwable t) {
                 Log.e("MainActivity", "Call failed.");
             }
         });
