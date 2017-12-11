@@ -31,6 +31,7 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
         // each data item is just a string in this case
         public TextView mTitleView;
         public TextView mIngredientsView;
+        public String mHref;
         PostItemListener mItemListener;
 
         public FoodViewHolder(View v, PostItemListener postItemListener) {
@@ -46,6 +47,7 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
             String decodedTitle = Html.fromHtml(result.getTitle()).toString();
             mTitleView.setText(cleanString((decodedTitle)));
             mIngredientsView.setText("Ingredients: " + result.getIngredients());
+            mHref = result.getHref();
         }
 
         @Override
