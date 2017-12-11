@@ -1,5 +1,6 @@
 package com.example.travis.cookingapp;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -28,7 +29,7 @@ public class ResultsActivity extends AppCompatActivity {
         // Get the Intent that started this activity and extract the string
         Intent intent = getIntent();
         String message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
-        String query = intent.getStringExtra("query");
+        final String query = intent.getStringExtra("query");
         Log.d("Results Activity", "Searched for: " + query);
 
         // Initialize REST client
@@ -44,8 +45,10 @@ public class ResultsActivity extends AppCompatActivity {
         mAdapter = new FoodAdapter(ResultsActivity.this, new ArrayList<FoodResult>(0), new FoodAdapter.PostItemListener() {
             @Override
             public void onPostClick(String title, String href) {
-                Log.d("Results onClick", "Title is " + title);
-                Log.d("Results onClick", "Link: " + href);
+                Intent webIntent = new Intent(getApplicationContext(), WebActivity.class);
+                webIntent.putExtra("href", href);
+                webIntent.putExtra("query", query);
+                startActivityForResult(webIntent, 1);
             }
         });
         mResultsView.setAdapter(mAdapter);
@@ -68,5 +71,15 @@ public class ResultsActivity extends AppCompatActivity {
                 Log.e("MainActivity", "Call failed.");
             }
         });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        if (requestCode == 1 && resultCode == RESULT_OK) {
+            String query = data.getStringExtra("query");
+            Log.d("Results Feedback", "Got query: " + query);
+            getResults(query);
+        }
     }
 }
