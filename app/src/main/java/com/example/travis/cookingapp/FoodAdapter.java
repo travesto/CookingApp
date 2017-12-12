@@ -8,6 +8,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
@@ -33,6 +35,8 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
         public TextView mIngredientsView;
         public String mHref;
         PostItemListener mItemListener;
+        ImageButton mFavoritesButton;
+        Button mRecipeButton;
 
         public FoodViewHolder(View v, PostItemListener postItemListener) {
             super(v);
@@ -40,7 +44,20 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
             mIngredientsView = (TextView) v.findViewById(R.id.ingredients);
 
             this.mItemListener = postItemListener;
-            v.setOnClickListener(this);
+            //v.setOnClickListener(this);
+            mFavoritesButton = (ImageButton) v.findViewById(R.id.favoritesButton);
+            mFavoritesButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    FoodResult item = getResult(getAdapterPosition());
+                    Log.d("Favorites Button", "info " + item);
+                    //mDataSource.createItem(item);
+
+                }
+            });
+
+            mRecipeButton = (Button) v.findViewById(R.id.recipeButton);
+            mRecipeButton.setOnClickListener(this);
         }
 
         public void bindResult(FoodResult result) {
@@ -48,6 +65,8 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
             mTitleView.setText(cleanString((decodedTitle)));
             mIngredientsView.setText("Ingredients: " + result.getIngredients());
             mHref = result.getHref();
+
+
         }
 
         @Override
