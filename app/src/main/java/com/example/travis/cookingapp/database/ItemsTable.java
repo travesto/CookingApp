@@ -18,7 +18,7 @@ public class ItemsTable {
                     COLUMN_ID + " TEXT PRIMARY KEY," +
                     COLUMN_INGREDIENTS + " TEXT," +
                     COLUMN_HREF + " TEXT," +
-                    COLUMN_PHOTO + " BLOB" + ");";
+                    COLUMN_PHOTO + " TEXT" + ");";
     public static final String SQL_DELETE =
             "DROP TABLE " + TABLE_ITEMS;
 }

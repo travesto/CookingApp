@@ -68,7 +68,8 @@ public class ResultsActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<RecipeResult> call, Throwable t) {
-                Log.e("MainActivity", "Call failed.");
+                Log.e("Results Activity", "Call failed.");
+                Log.e("Results Activity", t.getMessage());
             }
         });
     }

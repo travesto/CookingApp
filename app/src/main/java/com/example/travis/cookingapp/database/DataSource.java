@@ -68,7 +68,7 @@ public class DataSource {
             item.setTitle(cursor.getString(cursor.getColumnIndex(ItemsTable.COLUMN_ID)));
             item.setIngredients(cursor.getString(cursor.getColumnIndex(ItemsTable.COLUMN_INGREDIENTS)));
             item.setHref(cursor.getString(cursor.getColumnIndex(ItemsTable.COLUMN_HREF)));
-            item.setThumbnail(cursor.getBlob(cursor.getColumnIndex(ItemsTable.COLUMN_PHOTO)));
+            item.setThumbnail(cursor.getString(cursor.getColumnIndex(ItemsTable.COLUMN_PHOTO)));
             foodResults.add(item);
         }
 

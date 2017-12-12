@@ -27,7 +27,7 @@ public class FoodResult {
     private String ingredients;
     @SerializedName("thumbnail")
     @Expose
-    private Bitmap thumbnail;
+    private String thumbnail;
 
     public String getTitle() {
         return title;
@@ -53,28 +53,12 @@ public class FoodResult {
         this.ingredients = ingredients;
     }
 
-    public Bitmap getThumbnail() {
+    public String getThumbnail() {
         return thumbnail;
     }
 
-    public void setThumbnail(Bitmap thumbnail) {
+    public void setThumbnail(String thumbnail) {
         this.thumbnail = thumbnail;
-    }
-
-    public void setThumbnail(byte[] thumbnail) {
-        this.thumbnail = getImage(thumbnail);
-    }
-
-    // convert from bitmap to byte array
-    public static byte[] getBytes(Bitmap bitmap) {
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 0, stream);
-        return stream.toByteArray();
-    }
-
-    // convert from byte array to bitmap
-    public static Bitmap getImage(byte[] image) {
-        return BitmapFactory.decodeByteArray(image, 0, image.length);
     }
 
     public ContentValues toValues() {
@@ -83,7 +67,7 @@ public class FoodResult {
         values.put(ItemsTable.COLUMN_ID, title);
         values.put(ItemsTable.COLUMN_INGREDIENTS, ingredients);
         values.put(ItemsTable.COLUMN_HREF, href);
-        values.put(ItemsTable.COLUMN_PHOTO, getBytes(thumbnail));
+        values.put(ItemsTable.COLUMN_PHOTO, thumbnail);
         return values;
     }
 
