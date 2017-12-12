@@ -31,7 +31,7 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
-    public class FoodViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class FoodViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
         public TextView mTitleView;
         public TextView mIngredientsView;
@@ -43,18 +43,18 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
 
         public FoodViewHolder(View v, PostItemListener postItemListener) {
             super(v);
+            Log.d("Adapter", "Making new viewholder");
             mTitleView = (TextView) v.findViewById(R.id.title);
             mIngredientsView = (TextView) v.findViewById(R.id.ingredients);
 
             this.mItemListener = postItemListener;
-
 
             mFavoritesButton = (ImageButton) v.findViewById(R.id.favoritesButton);
             mFavoritesButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     FoodResult item = getResult(getAdapterPosition());
-                    mDataSource = new DataSource(this);//wont auto to context: this
+                    mDataSource = new DataSource(mContext);//wont auto to context: this
                     mDataSource.open();
                     mDataSource.createItem(item);
                     Log.d("Favorites Button", "created item: info " + item);
@@ -63,7 +63,13 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
             });
 
             mRecipeButton = (Button) v.findViewById(R.id.recipeButton);
-            mRecipeButton.setOnClickListener(this);
+            mRecipeButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    FoodResult item = getResult(getAdapterPosition());
+                    mItemListener.onPostClick(item.getHref());
+                }
+            });
         }
 
         public void bindResult(FoodResult result) {
@@ -71,16 +77,6 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
             mTitleView.setText(cleanString((decodedTitle)));
             mIngredientsView.setText("Ingredients: " + result.getIngredients());
             mHref = result.getHref();
-
-
-        }
-
-        @Override
-        public void onClick(View view) {
-            FoodResult item = getResult(getAdapterPosition());
-            this.mItemListener.onPostClick(item.getTitle(), item.getHref());
-
-            notifyDataSetChanged();
         }
     }
 
@@ -128,7 +124,7 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
     }
 
     public interface PostItemListener {
-        void onPostClick(String title, String href);
+        void onPostClick(String href);
     }
 
     public String cleanString(String text) {
