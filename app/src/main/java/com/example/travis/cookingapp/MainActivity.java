@@ -9,6 +9,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
+import com.example.travis.cookingapp.database.DataSource;
+
 import java.util.ArrayList;
 
 import retrofit2.Call;
@@ -17,12 +19,17 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
+    DataSource mDataSource;
+
     public static final String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mDataSource = new DataSource(this);
+        mDataSource.open();
+
     }
 
 

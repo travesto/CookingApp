@@ -42,9 +42,9 @@ public class ResultsActivity extends AppCompatActivity {
         mResultsView.setLayoutManager(mLayoutManager);
 
         // Set-up results list adapter
-        mAdapter = new FoodAdapter(ResultsActivity.this, new ArrayList<FoodResult>(0), new FoodAdapter.PostItemListener() {
+        mAdapter = new FoodAdapter(this, new ArrayList<FoodResult>(0), new FoodAdapter.PostItemListener() {
             @Override
-            public void onPostClick(String title, String href) {
+            public void onPostClick(String href) {
                 Intent webIntent = new Intent(getApplicationContext(), WebActivity.class);
                 webIntent.putExtra("href", href);
                 webIntent.putExtra("query", query);
@@ -68,7 +68,8 @@ public class ResultsActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<RecipeResult> call, Throwable t) {
-                Log.e("MainActivity", "Call failed.");
+                Log.e("Results Activity", "Call failed.");
+                Log.e("Results Activity", t.getMessage());
             }
         });
     }
