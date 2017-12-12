@@ -1,5 +1,7 @@
 package com.example.travis.cookingapp;
 
+import android.util.Log;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -25,9 +27,7 @@ public class RecipeResult {
     @Expose
     private List<FoodResult> results = null;
 
-    public String getTitle() {
-        return title;
-    }
+    public String getTitle() {return title;}
 
     public void setTitle(String title) {
         this.title = title;

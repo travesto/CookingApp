@@ -12,6 +12,8 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.example.travis.cookingapp.database.DataSource;
+
 import org.w3c.dom.Text;
 
 import java.util.List;
@@ -37,6 +39,7 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
         PostItemListener mItemListener;
         ImageButton mFavoritesButton;
         Button mRecipeButton;
+        DataSource mDataSource;
 
         public FoodViewHolder(View v, PostItemListener postItemListener) {
             super(v);
@@ -44,14 +47,17 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
             mIngredientsView = (TextView) v.findViewById(R.id.ingredients);
 
             this.mItemListener = postItemListener;
-            //v.setOnClickListener(this);
+
+
             mFavoritesButton = (ImageButton) v.findViewById(R.id.favoritesButton);
             mFavoritesButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     FoodResult item = getResult(getAdapterPosition());
-                    Log.d("Favorites Button", "info " + item);
-                    //mDataSource.createItem(item);
+                    mDataSource = new DataSource(this);//wont auto to context: this
+                    mDataSource.open();
+                    mDataSource.createItem(item);
+                    Log.d("Favorites Button", "created item: info " + item);
 
                 }
             });
