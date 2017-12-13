@@ -2,16 +2,22 @@ package com.example.travis.cookingapp;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.travis.cookingapp.database.DataSource;
 
 import java.util.ArrayList;
+import java.util.Dictionary;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -60,14 +66,18 @@ public class ResultsActivity extends AppCompatActivity {
         }, new FoodAdapter.FavoriteButtonListener() {
             @Override
             public void onFavoriteClick(int adapterPosition, FoodResult item) {
+                ImageButton favoriteButton = (ImageButton) mResultsView.findViewHolderForAdapterPosition(adapterPosition).itemView.findViewById(R.id.favoritesButton);
+
                 if(item.getFavorite()) {
                     item.setFavorite(false);
                     mDataSource.deleteItem(item);
                     // Use the adapter position to find the specific view instance and unhighlight button
+                    favoriteButton.setColorFilter(Color.rgb(170, 170, 170));
                 } else {
                     item.setFavorite(true);
                     mDataSource.createItem(item);
                     // Inverse of above
+                    favoriteButton.setColorFilter(Color.rgb(251,186,66));
                 }
             }
         });
@@ -80,6 +90,16 @@ public class ResultsActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<RecipeResult> call, Response<RecipeResult> response) {
                 if (response.isSuccessful()) {
+                    List<FoodResult> queryResults = response.body().getResults();
+                    HashMap<String, Boolean> favorites = new HashMap<>();
+                    for(FoodResult result : mDataSource.getAllItems())
+                        favorites.put(result.getTitle(), result.getFavorite());
+
+                    for(FoodResult result: queryResults)
+                    {
+                        if (favorites.get(result.getTitle()) != null)
+                            result.setFavorite(true);
+                    }
                     mAdapter.updateResults(response.body().getResults());
                 } else {
                     Log.e("Results Activity", "Call error");

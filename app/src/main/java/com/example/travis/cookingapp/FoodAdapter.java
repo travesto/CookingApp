@@ -1,6 +1,9 @@
 package com.example.travis.cookingapp;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.TextUtils;
@@ -10,12 +13,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.travis.cookingapp.database.DataSource;
+import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.List;
 
 /**
@@ -42,12 +51,14 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
         ImageButton mFavoritesButton;
         Button mRecipeButton;
         DataSource mDataSource;
+        public ImageView mImageView;
 
         public FoodViewHolder(View v, LinkButtonListener linkButtonListener, FavoriteButtonListener favoriteButtonListener) {
             super(v);
             Log.d("Adapter", "Making new viewholder");
             mTitleView = (TextView) v.findViewById(R.id.title);
             mIngredientsView = (TextView) v.findViewById(R.id.ingredients);
+            mImageView = (ImageView) v.findViewById(R.id.imageView2);
 
             this.mLinkListener = linkButtonListener;
             this.mFavoriteListener = favoriteButtonListener;
@@ -58,9 +69,9 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
             mFavoritesButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                FoodResult item = getResult(getAdapterPosition());
-                mFavoriteListener.onFavoriteClick(getAdapterPosition(), item);
-                notifyDataSetChanged();
+                    FoodResult item = getResult(getAdapterPosition());
+                    mFavoriteListener.onFavoriteClick(getAdapterPosition(), item);
+                    notifyDataSetChanged();
                 }
             });
 
@@ -79,6 +90,11 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
             mTitleView.setText(cleanString((decodedTitle)));
             mIngredientsView.setText("Ingredients: " + result.getIngredients());
             mHref = result.getHref();
+            Log.d("img", result.getThumbnail());
+            Picasso.with(mContext).load(result.getThumbnail()).into(mImageView);
+
+            if (result.getFavorite())
+                mFavoritesButton.setColorFilter(Color.rgb(251,186,66));
         }
     }
 
