@@ -23,7 +23,11 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
-        <activity android:name=".FavoritesActivity" />
+        <activity android:name=".FavoritesActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
         <activity android:name=".WebActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
