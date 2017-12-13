@@ -13,7 +13,7 @@
         android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:drawable/ic_menu_mapmode" />
+        app:srcCompat="@color/colorAccent" />
 
     <TextView
         android:id="@+id/ingredients"
@@ -40,7 +40,7 @@
         android:layout_marginTop="8dp"
         android:backgroundTint="@color/OffWhite"
         android:contentDescription="TODO"
-        android:tint="@color/colorAccent"
+        android:tint="@android:color/darker_gray"
         app:layout_constraintEnd_toStartOf="@+id/recipeButton"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
