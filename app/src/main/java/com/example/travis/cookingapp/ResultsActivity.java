@@ -9,6 +9,8 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.TextView;
 
+import com.example.travis.cookingapp.database.DataSource;
+
 import java.util.ArrayList;
 
 import retrofit2.Call;
@@ -17,6 +19,7 @@ import retrofit2.Response;
 
 public class ResultsActivity extends AppCompatActivity {
 
+    private DataSource mDataSource;
     private RecyclerView mResultsView;
     private FoodAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -35,6 +38,10 @@ public class ResultsActivity extends AppCompatActivity {
         // Initialize REST client
         mService = APIUtils.getRecipeService();
 
+        // Initialize SQL data
+        mDataSource = new DataSource(this);
+        mDataSource.open();
+
         // Set-up results list
         mResultsView = (RecyclerView) findViewById(R.id.resultsList);
         mResultsView.setHasFixedSize(true);
@@ -42,13 +49,26 @@ public class ResultsActivity extends AppCompatActivity {
         mResultsView.setLayoutManager(mLayoutManager);
 
         // Set-up results list adapter
-        mAdapter = new FoodAdapter(this, new ArrayList<FoodResult>(0), new FoodAdapter.PostItemListener() {
+        mAdapter = new FoodAdapter(this, new ArrayList<FoodResult>(0), new FoodAdapter.LinkButtonListener() {
             @Override
-            public void onPostClick(String href) {
+            public void onLinkClick(String href) {
                 Intent webIntent = new Intent(getApplicationContext(), WebActivity.class);
                 webIntent.putExtra("href", href);
                 webIntent.putExtra("query", query);
                 startActivityForResult(webIntent, 1);
+            }
+        }, new FoodAdapter.FavoriteButtonListener() {
+            @Override
+            public void onFavoriteClick(int adapterPosition, FoodResult item) {
+                if(item.getFavorite()) {
+                    item.setFavorite(false);
+                    mDataSource.deleteItem(item);
+                    // Use the adapter position to find the specific view instance and unhighlight button
+                } else {
+                    item.setFavorite(true);
+                    mDataSource.createItem(item);
+                    // Inverse of above
+                }
             }
         });
         mResultsView.setAdapter(mAdapter);

@@ -28,12 +28,10 @@ public class DataSource {
 
     public void open() {
         mDatabase = mDbHelper.getWritableDatabase();
-
     }
 
     public void close() {
         mDbHelper.close();
-
     }
 
     public FoodResult createItem(FoodResult item) {
@@ -69,10 +67,15 @@ public class DataSource {
             item.setIngredients(cursor.getString(cursor.getColumnIndex(ItemsTable.COLUMN_INGREDIENTS)));
             item.setHref(cursor.getString(cursor.getColumnIndex(ItemsTable.COLUMN_HREF)));
             item.setThumbnail(cursor.getString(cursor.getColumnIndex(ItemsTable.COLUMN_PHOTO)));
+            item.setFavorite(true);
             foodResults.add(item);
         }
 
         return foodResults;
+    }
+
+    public void deleteItem(FoodResult item) {
+        mDatabase.delete(ItemsTable.TABLE_ITEMS, ItemsTable.COLUMN_ID + "=?", new String[]{item.getTitle()});
     }
 
 

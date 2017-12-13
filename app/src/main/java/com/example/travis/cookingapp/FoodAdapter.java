@@ -26,7 +26,8 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
 
     private List<FoodResult> mDataset;
     private Context mContext;
-    private PostItemListener mItemListener;
+    private LinkButtonListener mLinkListener;
+    private FavoriteButtonListener mFavoriteListener;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -36,29 +37,30 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
         public TextView mTitleView;
         public TextView mIngredientsView;
         public String mHref;
-        PostItemListener mItemListener;
+        LinkButtonListener mLinkListener;
+        FavoriteButtonListener mFavoriteListener;
         ImageButton mFavoritesButton;
         Button mRecipeButton;
         DataSource mDataSource;
 
-        public FoodViewHolder(View v, PostItemListener postItemListener) {
+        public FoodViewHolder(View v, LinkButtonListener linkButtonListener, FavoriteButtonListener favoriteButtonListener) {
             super(v);
             Log.d("Adapter", "Making new viewholder");
             mTitleView = (TextView) v.findViewById(R.id.title);
             mIngredientsView = (TextView) v.findViewById(R.id.ingredients);
 
-            this.mItemListener = postItemListener;
+            this.mLinkListener = linkButtonListener;
+            this.mFavoriteListener = favoriteButtonListener;
+            mDataSource = new DataSource(mContext);//wont auto to context: this
+            mDataSource.open();
 
             mFavoritesButton = (ImageButton) v.findViewById(R.id.favoritesButton);
             mFavoritesButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    FoodResult item = getResult(getAdapterPosition());
-                    mDataSource = new DataSource(mContext);//wont auto to context: this
-                    mDataSource.open();
-                    mDataSource.createItem(item);
-                    Log.d("Favorites Button", "created item: info " + item);
-
+                FoodResult item = getResult(getAdapterPosition());
+                mFavoriteListener.onFavoriteClick(getAdapterPosition(), item);
+                notifyDataSetChanged();
                 }
             });
 
@@ -66,8 +68,8 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
             mRecipeButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    FoodResult item = getResult(getAdapterPosition());
-                    mItemListener.onPostClick(item.getHref());
+                FoodResult item = getResult(getAdapterPosition());
+                mLinkListener.onLinkClick(item.getHref());
                 }
             });
         }
@@ -81,10 +83,11 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public FoodAdapter(Context context, List<FoodResult> myDataset, PostItemListener postItemListener) {
+    public FoodAdapter(Context context, List<FoodResult> myDataset, LinkButtonListener linkButtonListener, FavoriteButtonListener favoriteButtonListener) {
         mDataset = myDataset;
         mContext = context;
-        mItemListener = postItemListener;
+        mLinkListener = linkButtonListener;
+        mFavoriteListener = favoriteButtonListener;
     }
 
     // Create new views (invoked by the layout manager)
@@ -96,7 +99,7 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
 
         View postView = inflater.inflate(R.layout.food_result, parent, false);
 
-        FoodViewHolder viewHolder = new FoodViewHolder(postView, this.mItemListener);
+        FoodViewHolder viewHolder = new FoodViewHolder(postView, this.mLinkListener, this.mFavoriteListener);
         return viewHolder;
     }
 
@@ -123,12 +126,22 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
         return mDataset.get(adapterPosition);
     }
 
-    public interface PostItemListener {
-        void onPostClick(String href);
+    public interface LinkButtonListener {
+        void onLinkClick(String href);
+    }
+
+    public interface FavoriteButtonListener {
+        void onFavoriteClick(int adapterPosition, FoodResult result);
     }
 
     public String cleanString(String text) {
         // Log.d("String Cleaning", "Cleaning " + text);
         return text.replace(System.getProperty("line.separator"), "").trim();
+    }
+
+    public void removeItem(int adapterPosition) {
+        mDataset.remove(adapterPosition);
+        notifyItemRemoved(adapterPosition);
+        notifyItemRangeChanged(adapterPosition, getItemCount());
     }
 }

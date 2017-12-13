@@ -36,12 +36,19 @@ public class FavoritesActivity extends AppCompatActivity {
         mResultsView.setLayoutManager(mLayoutManager);
 
         // Set-up results list adapter
-        mAdapter = new FoodAdapter(this, new ArrayList<FoodResult>(0), new FoodAdapter.PostItemListener() {
+        mAdapter = new FoodAdapter(this, new ArrayList<FoodResult>(0), new FoodAdapter.LinkButtonListener() {
             @Override
-            public void onPostClick(String href) {
+            public void onLinkClick(String href) {
                 Intent webIntent = new Intent(getApplicationContext(), WebActivity.class);
                 webIntent.putExtra("href", href);
                 startActivity(webIntent);
+            }
+        }, new FoodAdapter.FavoriteButtonListener() {
+            @Override
+            public void onFavoriteClick(int adapterPosition, FoodResult item) {
+                item.setFavorite(false);
+                mDataSource.deleteItem(item);
+                mAdapter.removeItem(adapterPosition);
             }
         });
         mResultsView.setAdapter(mAdapter);

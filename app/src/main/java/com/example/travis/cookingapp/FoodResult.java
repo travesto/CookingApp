@@ -29,6 +29,9 @@ public class FoodResult {
     @Expose
     private String thumbnail;
 
+    // Tracks favorites
+    private boolean isFavorite;
+
     public String getTitle() {
         return title;
     }
@@ -60,6 +63,10 @@ public class FoodResult {
     public void setThumbnail(String thumbnail) {
         this.thumbnail = thumbnail;
     }
+
+    public boolean getFavorite() { return isFavorite; }
+
+    public void setFavorite(boolean isFavorite) { this.isFavorite = isFavorite; }
 
     public ContentValues toValues() {
         ContentValues values = new ContentValues(8);
