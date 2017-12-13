@@ -1,4 +1,4 @@
-package com.example.travis.cookingapp.database;
+package com.acu.travis.cookingapp.database;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

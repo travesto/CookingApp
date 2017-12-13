@@ -1,13 +1,9 @@
-package com.example.travis.cookingapp;
-
-import android.util.Log;
+package com.acu.travis.cookingapp;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
-
-import javax.xml.transform.Result;
 
 /**
  * Created by admin on 12/4/17.

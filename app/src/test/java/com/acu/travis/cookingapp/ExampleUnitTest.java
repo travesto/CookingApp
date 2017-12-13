@@ -1,4 +1,4 @@
-package com.example.travis.cookingapp;
+package com.acu.travis.cookingapp;
 
 import org.junit.Test;
 

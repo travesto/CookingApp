@@ -1,6 +1,5 @@
-package com.example.travis.cookingapp;
+package com.acu.travis.cookingapp;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
@@ -9,15 +8,12 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.ImageButton;
-import android.widget.TextView;
 
-import com.example.travis.cookingapp.database.DataSource;
+import com.acu.travis.cookingapp.database.DataSource;
 
 import java.util.ArrayList;
-import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;

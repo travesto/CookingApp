@@ -1,6 +1,4 @@
-package com.example.travis.cookingapp.database;
-
-import android.graphics.Bitmap;
+package com.acu.travis.cookingapp.database;
 
 public class ItemsTable {
     public static final String TABLE_ITEMS = "favorites";

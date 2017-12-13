@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.travis.cookingapp">
+    package="com.acu.travis.cookingapp">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -11,27 +11,27 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name="com.acu.travis.cookingapp.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ResultsActivity">
+        <activity android:name="com.acu.travis.cookingapp.ResultsActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+                android:value="com.acu.travis.cookingapp.MainActivity" />
         </activity>
-        <activity android:name=".FavoritesActivity" >
+        <activity android:name="com.acu.travis.cookingapp.FavoritesActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+                android:value="com.acu.travis.cookingapp.MainActivity" />
         </activity>
-        <activity android:name=".WebActivity">
+        <activity android:name="com.acu.travis.cookingapp.WebActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ResultsActivity" />
+                android:value="com.acu.travis.cookingapp.ResultsActivity" />
         </activity>
     </application>
 

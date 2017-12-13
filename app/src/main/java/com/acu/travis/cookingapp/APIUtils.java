@@ -1,4 +1,4 @@
-package com.example.travis.cookingapp;
+package com.acu.travis.cookingapp;
 
 /**
  * Created by aggie on 12/1/2017.

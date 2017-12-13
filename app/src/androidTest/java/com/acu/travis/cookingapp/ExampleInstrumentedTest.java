@@ -1,4 +1,4 @@
-package com.example.travis.cookingapp;
+package com.acu.travis.cookingapp;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

@@ -1,4 +1,4 @@
-package com.example.travis.cookingapp.database;
+package com.acu.travis.cookingapp.database;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.example.travis.cookingapp.FoodResult;
+import com.acu.travis.cookingapp.FoodResult;
 
 import java.util.ArrayList;
 import java.util.List;

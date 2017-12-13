@@ -1,18 +1,14 @@
-package com.example.travis.cookingapp;
+package com.acu.travis.cookingapp;
 
 /**
  * Created by aggie on 12/1/2017.
  */
 
 import android.content.ContentValues;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 
-import com.example.travis.cookingapp.database.ItemsTable;
+import com.acu.travis.cookingapp.database.ItemsTable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-
-import java.io.ByteArrayOutputStream;
 
 public class FoodResult {
 
